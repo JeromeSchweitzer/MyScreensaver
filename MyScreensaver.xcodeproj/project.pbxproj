@@ -7,15 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CDFA96D125DDBA3500301728 /* MyScreensaverView.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFA96D025DDBA3500301728 /* MyScreensaverView.h */; };
-		CDFA96D325DDBA3500301728 /* MyScreensaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA96D225DDBA3500301728 /* MyScreensaverView.m */; };
+		CDFA96DC25DDBA5600301728 /* MyScreensaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CDFA96CD25DDBA3500301728 /* MyScreensaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyScreensaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDFA96D025DDBA3500301728 /* MyScreensaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScreensaverView.h; sourceTree = "<group>"; };
-		CDFA96D225DDBA3500301728 /* MyScreensaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScreensaverView.m; sourceTree = "<group>"; };
 		CDFA96D425DDBA3500301728 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScreensaverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,9 +46,8 @@
 		CDFA96CF25DDBA3500301728 /* MyScreensaver */ = {
 			isa = PBXGroup;
 			children = (
-				CDFA96D025DDBA3500301728 /* MyScreensaverView.h */,
-				CDFA96D225DDBA3500301728 /* MyScreensaverView.m */,
 				CDFA96D425DDBA3500301728 /* Info.plist */,
+				CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */,
 			);
 			path = MyScreensaver;
 			sourceTree = "<group>";
@@ -62,7 +59,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDFA96D125DDBA3500301728 /* MyScreensaverView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +93,7 @@
 				TargetAttributes = {
 					CDFA96CC25DDBA3500301728 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -133,7 +130,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDFA96D325DDBA3500301728 /* MyScreensaverView.m in Sources */,
+				CDFA96DC25DDBA5600301728 /* MyScreensaverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,12 +251,20 @@
 		CDFA96D825DDBA3500301728 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MyScreensaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = jeromeschweitzer.MyScreensaver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -267,12 +272,19 @@
 		CDFA96D925DDBA3500301728 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MyScreensaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = jeromeschweitzer.MyScreensaver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;
