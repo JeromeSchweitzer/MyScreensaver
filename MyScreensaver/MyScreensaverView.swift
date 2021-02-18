@@ -10,19 +10,21 @@
 //
 
 import ScreenSaver
+import Cocoa
 
 class MyScreensaverView: ScreenSaverView {
     
     // Global variables
     private var ballPosition: CGPoint = .zero
     private var ballVelocity: CGVector = .zero
-    private let ballRadius: CGFloat = 15
+//    private let ballRadius: CGFloat = 15
+    private let ballRadius: CGFloat = 100
     private var ballYAccel: CGFloat = -2.0
     private var normalDamping: CGFloat = 0.7
     private var alternateDamping: CGFloat = 0.9
     private var minVeloMargin: CGFloat = 1
 //    private var backgroundColor: NSColor = NSColor(red: 227.0, green: 83.0, blue: 73.0, alpha: 1.0)
-    private var backgroundColor: NSColor = .orange
+    private var backgroundColor: NSColor = .systemBlue
     private var balls: Array<CGPoint> = []
     private var iterations: Int = 0
     
@@ -77,7 +79,8 @@ class MyScreensaverView: ScreenSaverView {
     // Draw a single frame
     override func draw(_ rect: NSRect) {
         drawBackground(backgroundColor)
-        drawBalls()
+//        drawBalls()
+        drawBall()
     }
     
     private func drawBackground(_ color: NSColor) {
@@ -92,12 +95,15 @@ class MyScreensaverView: ScreenSaverView {
                                   y: ball.y - ballRadius,
                                   width: ballRadius * 2,
                                   height: ballRadius * 2)
-            let ball = NSBezierPath(roundedRect: ballRect,
-                                    xRadius: ballRadius,
-                                    yRadius: ballRadius)
-            NSColor.black.setFill()
-            
-            ball.fill()
+//            let ball = NSBezierPath(roundedRect: ballRect,
+//                                    xRadius: ballRadius,
+//                                    yRadius: ballRadius)
+//            NSColor.black.setFill()
+//
+//            ball.fill()
+            let myImg = NSImage(contentsOf: URL(string: "https://cdn.d1baseball.com/logos/teams/256/purdue.png")!)
+            myImg?.draw(in: ballRect)
+            // ^ Seems to take up a bunch of computing power
         }
     }
     
@@ -106,11 +112,18 @@ class MyScreensaverView: ScreenSaverView {
                               y: ballPosition.y - ballRadius,
                               width: ballRadius * 2,
                               height: ballRadius * 2)
-        let ball = NSBezierPath(roundedRect: ballRect,
-                                xRadius: ballRadius,
-                                yRadius: ballRadius)
-        NSColor.black.setFill()
-        ball.fill()
+//        let ball = NSBezierPath(roundedRect: ballRect,
+//                                xRadius: ballRadius,
+//                                yRadius: ballRadius)
+//        NSColor.black.setFill()
+//        ball.fill()
+//        let myUrl = URL(string: "https://cdn.d1baseball.com/logos/teams/256/purdue.png")
+        let myImg = NSImage(contentsOf: URL(string: "https://cdn.d1baseball.com/logos/teams/256/purdue.png")!)
+//        let myImg = NSImage(contentsOfFile: "orange.png")
+//        let stringPath = Bundle.main.path(forResource: "orange", ofType: "png")
+//        let myImg = NSImage(named: "orange.jpg")
+        myImg?.draw(in: ballRect)
+        
     }
     
     private func initializeBall() {
@@ -136,3 +149,25 @@ class MyScreensaverView: ScreenSaverView {
     }
 
 }
+//
+//class MyView: NSView {
+//
+//    var image : NSImage? {
+//        didSet {
+//           needsDisplay = true
+//        }
+//    }
+//
+//    init(frame frameRect: NSRect, image : NSImage?) {
+//        self.image = image
+//        super.init(frame: frameRect)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//    }
+//
+//    override func draw(_ dirtyRect: NSRect) {
+//        image?.draw(at: .zero, from: bounds, operation: .sourceOver, fraction: 1.0)
+//    }
+//}
