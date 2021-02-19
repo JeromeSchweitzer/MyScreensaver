@@ -7,15 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CDF7239825DEFAEC00134E42 /* orange.png in Sources */ = {isa = PBXBuildFile; fileRef = CDF7239525DEF92B00134E42 /* orange.png */; };
-		CDF7239E25DEFC2E00134E42 /* orange.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CDF7239D25DEFC2E00134E42 /* orange.jpg */; };
-		CDF723A025DEFC3A00134E42 /* orange.jpg in Sources */ = {isa = PBXBuildFile; fileRef = CDF7239D25DEFC2E00134E42 /* orange.jpg */; };
 		CDFA96DC25DDBA5600301728 /* MyScreensaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CDF7239525DEF92B00134E42 /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange.png; sourceTree = "<group>"; };
-		CDF7239D25DEFC2E00134E42 /* orange.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = orange.jpg; sourceTree = "<group>"; };
 		CDFA96CD25DDBA3500301728 /* MyScreensaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyScreensaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDFA96D425DDBA3500301728 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScreensaverView.swift; sourceTree = "<group>"; };
@@ -53,8 +48,6 @@
 			children = (
 				CDFA96D425DDBA3500301728 /* Info.plist */,
 				CDFA96DB25DDBA5600301728 /* MyScreensaverView.swift */,
-				CDF7239D25DEFC2E00134E42 /* orange.jpg */,
-				CDF7239525DEF92B00134E42 /* orange.png */,
 			);
 			path = MyScreensaver;
 			sourceTree = "<group>";
@@ -127,7 +120,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDF7239E25DEFC2E00134E42 /* orange.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +130,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDF723A025DEFC3A00134E42 /* orange.jpg in Sources */,
-				CDF7239825DEFAEC00134E42 /* orange.png in Sources */,
 				CDFA96DC25DDBA5600301728 /* MyScreensaverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
