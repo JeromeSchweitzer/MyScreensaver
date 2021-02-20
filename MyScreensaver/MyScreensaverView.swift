@@ -10,24 +10,32 @@
 //
 
 import ScreenSaver
-import Cocoa
 
 class MyScreensaverView: ScreenSaverView {
     
+    // Constants
+    private let MAX_X_SPEED: Double = 20.0
+    private let MAX_Y_SPEED: Double = 40.0
+    private let MAX_NORMAL_DAMPING: CGFloat = 0.7
+    private let MAX_ALTERNATE_DAMPING: CGFloat = 0.9
+    private let NORMAL_DAMPING_DEC: CGFloat = 0.1
+    private let ALTERNATE_DAMPING_DEC: CGFloat = 0.01
+    private let SLOW_SPEED: CGFloat = 0.1
+    
     // Global variables
+    private let ballRadius: CGFloat = 30.0
     private var ballPosition: CGPoint = .zero
     private var ballVelocity: CGVector = .zero
-//    private let ballRadius: CGFloat = 15
-    private let ballRadius: CGFloat = 30
     private var ballYAccel: CGFloat = -2.0
-    private var normalDamping: CGFloat = 0.7
-    private var alternateDamping: CGFloat = 0.9
+    
+    private var normalDamping: CGFloat = .zero
+    private var alternateDamping: CGFloat = .zero
+    
     private var backgroundColor: NSColor = .systemBlue
-//    let myImg = NSImage(contentsOf: URL(string: "https://cdn.d1baseball.com/logos/teams/256/purdue.png")!)
-    let myImg = NSImage(contentsOf: URL(string: "https://i.pinimg.com/originals/9f/cb/f7/9fcbf766603ed3d1e6c2808ee63ff3f3.png")!)
+    private let myImg = NSImage(contentsOf: URL(string: "https://i.pinimg.com/originals/9f/cb/f7/9fcbf766603ed3d1e6c2808ee63ff3f3.png")!)
     
 
-    // MARK: - Initialization
+    // Initialization
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
         initializeBall()
@@ -37,14 +45,15 @@ class MyScreensaverView: ScreenSaverView {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // Update the state of the screensaver
+    
+    // Animate one frame of the screensaver
     override func animateOneFrame() {
         super.animateOneFrame()
         
         ballPosition.x += ballVelocity.dx
         ballPosition.y += ballVelocity.dy
         
+        // Don't let the ball leave the bounds
         let OOB = isBallOOB()
         if OOB.xOOB {
             ballVelocity.dx *= -1 * normalDamping
@@ -55,72 +64,54 @@ class MyScreensaverView: ScreenSaverView {
             ballVelocity.dy *= -1 * normalDamping
             ballVelocity.dx *= alternateDamping
             ballPosition.y = (ballPosition.y - ballRadius <= 0) ? ballRadius : bounds.height - ballRadius
-            normalDamping -= 0.1    // Decrement the damping force, I guess?
-            alternateDamping -= 0.01
+            normalDamping -= NORMAL_DAMPING_DEC    // Decrement the damping force, I guess?
+            alternateDamping -= ALTERNATE_DAMPING_DEC
             // normalDamping -= (normalDamping * (bounds.height / 2)) / 10  // Alternative decrement
         } else {
             ballVelocity.dy += ballYAccel
         }
         
-        if ballVelocity.dy.magnitude <= 0.1 && ballVelocity.dx.magnitude <= 0.1 {
+        if ballVelocity.dy.magnitude <= SLOW_SPEED && ballVelocity.dx.magnitude <= SLOW_SPEED {
             // Ball has essentially come to a stop
             initializeBall()
         }
         
-        // Only updating in the current rectangle
+        // Only updating in the current rectangle, not intentional but maybe good?
         setNeedsDisplay(NSRect(x: ballPosition.x - ballRadius,
                                y: ballPosition.y - ballRadius,
                                width: ballRadius * 2,
                                height: ballRadius * 2))
-//        setNeedsDisplay(bounds)
+        // setNeedsDisplay(bounds)
     }
     
-    // MARK: - Lifecycle
-    // Draw a single frame
+    // Draw one frame of the screensaver
     override func draw(_ rect: NSRect) {
         drawBackground(backgroundColor)
         drawBall()
     }
     
+    // Fill in the screensaver background
     private func drawBackground(_ color: NSColor) {
         let background = NSBezierPath(rect: bounds)
         color.setFill()
         background.fill()
     }
     
-//    private func drawBalls() {
-//        for ball in balls {
-//            let ballRect = NSRect(x: ball.x - ballRadius,
-//                                  y: ball.y - ballRadius,
-//                                  width: ballRadius * 2,
-//                                  height: ballRadius * 2)
-//            let ball = NSBezierPath(roundedRect: ballRect,
-//                                    xRadius: ballRadius,
-//                                    yRadius: ballRadius)
-//            NSColor.black.setFill()
-//
-//            ball.fill()
-//    }
-    
+    // Draw myImg at ball position
     private func drawBall() {
         let ballRect = NSRect(x: ballPosition.x - ballRadius,
                               y: ballPosition.y - ballRadius,
                               width: ballRadius * 2,
                               height: ballRadius * 2)
-//        let ball = NSBezierPath(roundedRect: ballRect,
-//                                xRadius: ballRadius,
-//                                yRadius: ballRadius)
-//        NSColor.black.setFill()
-//        ball.fill()
         myImg?.draw(in: ballRect)
-        
     }
     
+    // Initialize position and velocity of ball, (re)set damping values
     private func initializeBall() {
         ballPosition = CGPoint(x: frame.width/2, y: frame.height/2)
-        ballVelocity = CGVector(dx: Double.random(in: -20.0...20.0), dy: Double.random(in: 30.0...40.0))
-        normalDamping = 0.7
-        alternateDamping = 0.9
+        ballVelocity = CGVector(dx: Double.random(in: -1*MAX_X_SPEED...MAX_X_SPEED), dy: Double.random(in: MAX_Y_SPEED-10...MAX_Y_SPEED))
+        normalDamping = MAX_NORMAL_DAMPING
+        alternateDamping = MAX_ALTERNATE_DAMPING
     }
     
     // Is the ball out of bounds in the x or y-axis
