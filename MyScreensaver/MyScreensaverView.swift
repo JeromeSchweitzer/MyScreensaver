@@ -31,7 +31,10 @@ class MyScreensaverView: ScreenSaverView {
     private var normalDamping: CGFloat = .zero
     private var alternateDamping: CGFloat = .zero
     
-    private var backgroundColor: NSColor = .systemBlue
+//    private let system_colors: Array<NSColor> = [.systemTeal, .systemPink, .systemPurple, .systemIndigo, .systemRed, .systemBlue, .systemGray, .systemGreen, .systemBrown, .systemOrange, .systemYellow]
+    
+    private var backgroundColor: NSColor = .systemIndigo
+    // TODO: Figure out how to use local image
     private let myImg = NSImage(contentsOf: URL(string: "https://i.pinimg.com/originals/9f/cb/f7/9fcbf766603ed3d1e6c2808ee63ff3f3.png")!)
     
 
@@ -55,6 +58,9 @@ class MyScreensaverView: ScreenSaverView {
         
         // Don't let the ball leave the bounds
         let OOB = isBallOOB()
+//        if OOB.xOOB || OOB.yOOB {
+//            backgroundColor = system_colors.randomElement()!
+//        }
         if OOB.xOOB {
             ballVelocity.dx *= -1 * normalDamping
             ballVelocity.dy *= alternateDamping
@@ -72,16 +78,18 @@ class MyScreensaverView: ScreenSaverView {
         }
         
         if ballVelocity.dy.magnitude <= SLOW_SPEED && ballVelocity.dx.magnitude <= SLOW_SPEED {
-            // Ball has essentially come to a stop
-            initializeBall()
+            initializeBall()    // Ball has essentially come to a stop
         }
         
         // Only updating in the current rectangle, not intentional but maybe good?
-        setNeedsDisplay(NSRect(x: ballPosition.x - ballRadius,
-                               y: ballPosition.y - ballRadius,
-                               width: ballRadius * 2,
-                               height: ballRadius * 2))
-        // setNeedsDisplay(bounds)
+//        setNeedsDisplay(NSRect(x: ballPosition.x - ballRadius,
+//                               y: ballPosition.y - ballRadius,
+//                               width: ballRadius * 2,
+//                               height: ballRadius * 2))
+        // TODO: Figure out how to correctly draw new images on top of old
+        // Consider storing list of visited positions, if current position is
+        // close to an old position, draw both so as not to paint background over
+         setNeedsDisplay(bounds)
     }
     
     // Draw one frame of the screensaver
