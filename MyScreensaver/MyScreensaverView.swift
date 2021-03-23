@@ -31,7 +31,9 @@ class MyScreensaverView: ScreenSaverView {
     private var normalDamping: CGFloat = .zero
     private var alternateDamping: CGFloat = .zero
     
-//    private let system_colors: Array<NSColor> = [.systemTeal, .systemPink, .systemPurple, .systemIndigo, .systemRed, .systemBlue, .systemGray, .systemGreen, .systemBrown, .systemOrange, .systemYellow]
+    private var numBalls: Int = 0
+    
+    private let system_colors: Array<NSColor> = [.systemTeal, .systemPink, .systemPurple, .systemIndigo, .systemRed, .systemBlue, .systemGray, .systemGreen, .systemBrown, .systemOrange, .systemYellow]
     
     private var backgroundColor: NSColor = .systemIndigo
     // TODO: Figure out how to use local image
@@ -42,6 +44,7 @@ class MyScreensaverView: ScreenSaverView {
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
         initializeBall()
+        numBalls = 0
     }
     
     @available(*, unavailable)
@@ -58,9 +61,9 @@ class MyScreensaverView: ScreenSaverView {
         
         // Don't let the ball leave the bounds
         let OOB = isBallOOB()
-//        if OOB.xOOB || OOB.yOOB {
-//            backgroundColor = system_colors.randomElement()!
-//        }
+        if OOB.xOOB || OOB.yOOB {
+            backgroundColor = system_colors.filter{$0 != backgroundColor}.randomElement()!
+        }
         if OOB.xOOB {
             ballVelocity.dx *= -1 * normalDamping
             ballVelocity.dy *= alternateDamping
@@ -81,15 +84,16 @@ class MyScreensaverView: ScreenSaverView {
             initializeBall()    // Ball has essentially come to a stop
         }
         
-        // Only updating in the current rectangle, not intentional but maybe good?
-//        setNeedsDisplay(NSRect(x: ballPosition.x - ballRadius,
-//                               y: ballPosition.y - ballRadius,
-//                               width: ballRadius * 2,
-//                               height: ballRadius * 2))
-        // TODO: Figure out how to correctly draw new images on top of old
-        // Consider storing list of visited positions, if current position is
-        // close to an old position, draw both so as not to paint background over
-         setNeedsDisplay(bounds)
+        if numBalls > 4 {
+            numBalls = 0
+            setNeedsDisplay(bounds)
+        } else {
+            // Not what I originally wanted, but looks pretty good
+            setNeedsDisplay(NSRect(x: ballPosition.x - ballRadius,
+                                   y: ballPosition.y - ballRadius,
+                                   width: ballRadius * 2,
+                                   height: ballRadius * 2))
+        }
     }
     
     // Draw one frame of the screensaver
@@ -116,6 +120,7 @@ class MyScreensaverView: ScreenSaverView {
     
     // Initialize position and velocity of ball, (re)set damping values
     private func initializeBall() {
+        numBalls += 1
         ballPosition = CGPoint(x: frame.width/2, y: frame.height/2)
         ballVelocity = CGVector(dx: Double.random(in: -1*MAX_X_SPEED...MAX_X_SPEED), dy: Double.random(in: MAX_Y_SPEED-10...MAX_Y_SPEED))
         normalDamping = MAX_NORMAL_DAMPING
